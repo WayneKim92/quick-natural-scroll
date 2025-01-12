@@ -55,7 +55,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "scroll", accessibilityDescription: "Toggle Scroll")
+            if let originalImage = NSImage(named: "AppIcon") {
+                let resizedImage = NSImage(size: NSSize(width: 32, height: 32))
+                resizedImage.lockFocus()
+                originalImage.draw(in: NSRect(x: 0, y: 0, width: 32, height: 32))
+                resizedImage.unlockFocus()
+                
+                button.image = resizedImage
+                button.image?.isTemplate = true
+            }
         }
 
         let menu = NSMenu()
